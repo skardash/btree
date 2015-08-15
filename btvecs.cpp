@@ -417,9 +417,9 @@ int main() {
 	b1 = b1->insert_tree(3);
 	b1->print(0);
 
-
 	b1 = b1->insert_tree(4);
 	b1->print(0);
+
 			
 	//add b2 to b1
 	return 0;
