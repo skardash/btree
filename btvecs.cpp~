@@ -22,6 +22,7 @@ public:
 	}
 	
 	BTree(int s) {
+		// vals.resize(0); bt.resize(0);
 		t = s;
 		leaf = true;
 	}
@@ -148,10 +149,30 @@ public:
 		/* delete element from the BTree */
 	}
 	
+	void print_node() {
+		cout << "------------print_node------------" << endl;
+		cout << "vals.size() = " << endl;	
+//		cout << "vals empty check: " << endl;	
+		cout << this->bt.empty() << endl;		
+
+		cout << vals.empty() << endl;		
+		// cout  << vals.size() << endl; 
+		for (int cnt=0; cnt<vals.size(); cnt++)
+			cout << vals[cnt] << ' ';
+		cout << '\n';
+		cout << "bt: ";
+		for (int cnt=0; cnt<bt.size(); cnt++)
+			cout << bt[cnt] << ' ';
+		cout << '\n';
+		cout << "------------/print_node------------" << endl;
+	}
+	
 	vector<BTree*> split() {
 		/* split the tree into 2 Trees and parent */
 //		cout << "Tree is splitted" << endl;
 		cout << "-----------------split-------------" << endl;
+		cout << "info about the node to be splitted: " << endl;
+		cout << "bt.size() = " << bt.size() << endl;
 		vector<BTree*>  btspl;
 		int sz = vals.size()/2;
 		
@@ -174,7 +195,7 @@ public:
 		left->vals.resize(sz);
 		copy(vals.begin(), next(vals.begin(),sz), left->vals.begin());
 		
-		left->bt.resize(sz);
+		left->bt.resize(sz+1);
 		left->parent = center;
 		left->leaf = this->leaf;
 		copy(bt.begin(), next(bt.begin(),sz), left->bt.begin());
@@ -187,13 +208,14 @@ public:
 		cout << "right->leaf = " << right->leaf << endl;
 		copy(next(vals.begin(),sz+1), vals.end(), right->vals.begin());
 		
-		right->bt.resize(sz);
+		right->bt.resize(sz+1);
 		cout << "we start from " << next(bt.begin(),sz+1) - bt.begin() << endl;
 		cout << "we finish at " << bt.end() - bt.begin() << endl;
 		cout << "bt[2] = " << bt[2] << endl;
 		cout << "bt[3] = " << bt[3] << endl;
 		cout << "vals.size() = " << vals.size() << endl;
 		cout << "bt.size() = " << bt.size() << endl;
+		// this is smth stange
 		copy(next(bt.begin(),sz+1), bt.end(), (right->bt).begin());
 		cout << "right->bt[0] = " << right->bt[0] << endl;
 		cout << "right->bt[1] = " << right->bt[1] << endl;
@@ -213,18 +235,10 @@ public:
 		// print list of values
 		cout << "-----------------print-------------" << endl;
 		cout << "level = " << level << endl;
-		for (vector<int>::iterator pos = vals.begin(); pos < vals.end(); pos++)
-			cout << ' ' << *pos;
-		cout << '\n';
-		vector<int>::iterator pos_int = vals.begin();
-
-		for (vector<BTree *>::iterator pos = bt.begin(); pos < bt.end(); pos++) {
-			if (*pos != NULL) {
-				(*pos)->print(level + 1);
-			} else {
-				cout << "-> No children!" << endl;
-			}
-			pos_int++;
+		print_node();
+		if (!leaf) {
+			for (int cnt=0; cnt<bt.size(); cnt++)
+				bt[cnt]->print(level+1);
 		}
 		cout << "---------------/print---------------" << endl;
 		// print each child tree
@@ -406,19 +420,20 @@ int main() {
 	
 	BTree *b1 = new BTree(2);
 	b1 = b1->insert_tree(0);
-	//b1->print(0);
-
+	
 	b1 = b1->insert_tree(1);
-	//b1->print(0);
+	
 	
 	b1 = b1->insert_tree(2);
-	b1->print(0);
+	cout << "b1->bt[1]->bt.size() = " << b1->bt[1]->bt.size() << endl;
 	
 	b1 = b1->insert_tree(3);
-	b1->print(0);
+	cout << "b1->bt[1]->bt.size() = " << b1->bt[1]->bt.size() << endl;
+	// b1->print(0);
 
 	b1 = b1->insert_tree(4);
 	b1->print(0);
+
 			
 	//add b2 to b1
 	return 0;
