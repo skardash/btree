@@ -49,43 +49,24 @@ public:
 				goto L
 			
 		*/
-		
-		
-		cout << "insert start" << endl;
 		BTree* curr = this;
-		cout << "leaf = " << leaf << endl;
 		while (!curr->leaf) {
 			int pos = curr->find_pos(elem);
-			cout << "going to " << pos << " element" << endl;
 			curr = curr->bt[pos];
 		}
 		cout << "reached the leaf" << endl;
-		//reached the leaf
 		curr->add_element(elem,NULL,NULL);
-		//moving up and adding the elements
 		while (curr->check()) {
-			cout << "going to split" << endl;
-			vector<BTree*> spl = split();
+			cout << "node is full: going to split" << endl;
+			vector<BTree*> spl = curr->split();
 			cout << "split done successfully" << endl;
-			if (parent == NULL) {
-				cout << "parent == NULL" << endl;
-				// we are on the very top 
+			if (curr->parent == NULL) {
+				cout << "parent == NULL, create new root" << endl;
 				BTree *par = spl[1];
-				cout << "bt[2] = " << bt[2] << endl;
-				cout << "bt[3] = " << bt[3] << endl;
-				cout << "spl[2]->bt[0] = " << spl[2]->bt[0]  << endl;
-				cout << "spl[2]->bt[1] = " << spl[2]->bt[1]  << endl;
-				cout << "we are returning par" << endl;
-				cout << "par->vals.size() = " << par->vals.size() << endl;
-				cout << "par->bt.size() = " << par->bt.size() << endl;
-				cout << "par->bt[1]->bt[0] = " << par->bt[1]->bt[0] << endl;
-				cout << "par->bt[1]->bt[1] = " << par->bt[1]->bt[1] << endl;
-				cout << "par->bt[1]->leaf = " << par->bt[1]->leaf << endl;
-				cout << "spl[2]->leaf = " << spl[2]->leaf << endl;
 				cout << "------------/insert_tree report------------" << endl;
 				return par;
 			} else {
-				// we go to parent and add the new value to it
+				cout << "adding to nonzero parent" << endl;
 				curr = parent;
 				curr->add_element(spl[1]->vals[0],spl[0],spl[2]);
 			}
@@ -103,8 +84,11 @@ public:
 		/* add element to vals and links to child BTrees to bt, in case it's lead we add NULLS */
 		// find ix: vc[ix] < n < vc[ix+1]
 		// in case n is equal to some of the elements, don't add it
+
 		cout << "------------add_element report------------" << endl;
 		cout << "array before adding:" << endl;
+		cout << "wtf is happening?!?!?" << endl;
+		cout << "vals.size() = " << this->vals.size() << endl;
 		for (int i=0;i<vals.size();i++) {
 			cout << vals[i] << " ";
 		}
@@ -129,12 +113,14 @@ public:
 		for (int i=0;i<vals.size();i++) {
 			cout << vals[i] << " ";
 		}
-
+		cout << endl;		
+		
 		cout << "links array content: " << endl;
-		for (int i=0;i<bt.size();i++) {
+		for (int i=0; i<bt.size(); i++) {
 			cout << bt[i] << " ";
 		}
 		cout << endl;
+
 		/*
 		cout << "right content: " << endl;
 		for (int i=0;i<right->bt.size();i++) {
@@ -151,15 +137,10 @@ public:
 	
 	void print_node() {
 		cout << "------------print_node------------" << endl;
-		cout << "vals.size() = " << endl;	
-//		cout << "vals empty check: " << endl;	
-		cout << this->bt.empty() << endl;		
-
-		cout << vals.empty() << endl;		
-		// cout  << vals.size() << endl; 
+		cout << "values: ";
 		for (int cnt=0; cnt<vals.size(); cnt++)
 			cout << vals[cnt] << ' ';
-		cout << '\n';
+		cout << endl;
 		cout << "bt: ";
 		for (int cnt=0; cnt<bt.size(); cnt++)
 			cout << bt[cnt] << ' ';
@@ -175,7 +156,7 @@ public:
 		cout << "bt.size() = " << bt.size() << endl;
 		vector<BTree*>  btspl;
 		int sz = vals.size()/2;
-		
+		cout << "vals.size() = " << vals.size() << endl;
 		BTree *left, *center, *right;
 		left = new BTree(t);
 		right = new BTree(t);
@@ -192,6 +173,7 @@ public:
 		
 		cout << "inside split 2" << endl;
 		// filling left
+		cout << "sz = " << sz << endl;
 		left->vals.resize(sz);
 		copy(vals.begin(), next(vals.begin(),sz), left->vals.begin());
 		
@@ -225,6 +207,9 @@ public:
 		btspl[0] = left;
 		btspl[1] = center;
 		btspl[2] = right;
+
+		cout << "printing smth ..." << endl;
+		btspl[1]->print(0);
 
 		cout << "inside split 5" << endl;
 		cout << "-----------------/split-------------" << endl;
@@ -420,20 +405,44 @@ int main() {
 	
 	BTree *b1 = new BTree(2);
 	b1 = b1->insert_tree(0);
-	
 	b1 = b1->insert_tree(1);
-	
-	
 	b1 = b1->insert_tree(2);
-	cout << "b1->bt[1]->bt.size() = " << b1->bt[1]->bt.size() << endl;
 	
+//	cout << b1->bt[1]->parent << endl;
+//	cout << (b1->bt[1]->parent == b1) << endl;
+
+//	cout << "insert operations finished" << endl;
+	//cout << "b1->bt[1]->bt.size() = " << b1->bt[1]->bt.size() << endl;
+//	b1->print(0);
+
+	// vector<BTree*> bnew = b1->split();
+
+	
+//	b1 = bnew[1];
+
+	b1 = b1->insert_tree(3);
+	b1->print(0);
+
+//	cout << b1->bt[1]->parent << endl;;
+	
+
+	cout << "before last insert: " << endl;
+	b1 = b1->insert_tree(4);
+	b1->print(0);
+
+	/*
+	cout << "after last insert: " << endl;
+	b1->print(0);
+	*/	
+
+	/*	
 	b1 = b1->insert_tree(3);
 	cout << "b1->bt[1]->bt.size() = " << b1->bt[1]->bt.size() << endl;
 	// b1->print(0);
 
 	b1 = b1->insert_tree(4);
 	b1->print(0);
-
+	*/
 			
 	//add b2 to b1
 	return 0;
