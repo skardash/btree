@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1439897105 source:/home/skardash/gitrepos/BTree/jabtree/main.cpp
+	<stdlib.h>
+	<iostream>
+	<vector>
+	<algorithm>
+	<list>
+
