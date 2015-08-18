@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -67,8 +68,15 @@ public:
 				return par;
 			} else {
 				cout << "adding to nonzero parent" << endl;
-				curr = parent;
+				cout << "parent info: " << endl;
+				cout << "is parent NULL? " << (parent == NULL) << endl;
+				curr->parent->print(0);
+				curr = curr->parent;
 				curr->add_element(spl[1]->vals[0],spl[0],spl[2]);
+				system("reset");
+				this->print(0);
+				spl[0]->parent = curr;
+				spl[2]->parent = curr;
 			}
 		}
 		cout << "------------/insert_tree report------------" << endl;
@@ -88,7 +96,8 @@ public:
 		cout << "------------add_element report------------" << endl;
 		cout << "array before adding:" << endl;
 		cout << "wtf is happening?!?!?" << endl;
-		cout << "vals.size() = " << this->vals.size() << endl;
+		cout << "vals.size() = " << vals.size() << endl;
+
 		for (int i=0;i<vals.size();i++) {
 			cout << vals[i] << " ";
 		}
@@ -178,14 +187,14 @@ public:
 		copy(vals.begin(), next(vals.begin(),sz), left->vals.begin());
 		
 		left->bt.resize(sz+1);
-		left->parent = center;
+		
 		left->leaf = this->leaf;
 		copy(bt.begin(), next(bt.begin(),sz), left->bt.begin());
 		
 		cout << "inside split 3" << endl;
 		// filling right
 		right->vals.resize(sz);
-		right->parent = center;
+		
 		right->leaf = this->leaf;
 		cout << "right->leaf = " << right->leaf << endl;
 		copy(next(vals.begin(),sz+1), vals.end(), right->vals.begin());
@@ -421,15 +430,46 @@ int main() {
 //	b1 = bnew[1];
 
 	b1 = b1->insert_tree(3);
-	b1->print(0);
+	
+//	system("reset");
+//	b1->print(0);
 
 //	cout << b1->bt[1]->parent << endl;;
 	
 
-	cout << "before last insert: " << endl;
-	b1 = b1->insert_tree(4);
-	b1->print(0);
+//	cout << "before last insert: " << endl;
+//	b1 = b1->insert_tree(4);
 
+	
+
+//	b1->print(0);
+
+	
+//	b1 = b1->insert_tree(5);
+	
+	
+
+	/*	
+	b1->bt[1]->parent->print_node();
+
+	b1->print_node();
+
+	cout << "b1->bt[1]->parent = " << b1->bt[1]->parent << endl;
+	cout << "b1 = " << b1 << endl;
+	*/
+	
+	// b1->bt[1]
+		
+//	b1 = b1->insert_tree(6);
+	
+
+//	b1 = b1->insert_tree(7);
+//	b1 = b1->insert_tree(8);
+//	b1 = b1->insert_tree(9);
+	
+
+	
+	
 	/*
 	cout << "after last insert: " << endl;
 	b1->print(0);

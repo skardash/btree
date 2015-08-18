@@ -4,9 +4,9 @@
 #include <vector>
 
 using namespace std;
+vector<int> v;
 
 int main () {
-	vector<int> v;
-	cout << v.size() << endl;
+	cout << "v.size() = "<< v.size() << endl;
 	return 0;
 }
