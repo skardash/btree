@@ -50,11 +50,25 @@ public:
                 goto L
 
         */
+
         BTree* curr = this;
+	cout << "start looking for a leaf" << endl;
+	BTree* prev;
         while (!curr->leaf) {
-            int pos = curr->find_pos(elem);
-            curr = curr->bt[pos];
+		cout << "inside loop" << endl;
+		int pos = curr->find_pos(elem);
+		cout << "*inside loop" << endl;
+		prev = curr;
+		cout << "pos = " << pos << "; curr->bt.size() = " << curr->bt.size() << endl;
+		curr = curr->bt[pos];
+		cout << "curr is assigned " << endl;
+		if (curr == NULL)
+			break;
         }
+	
+	if (curr == NULL) {
+		curr = prev;
+	}
         cout << "reached the leaf" << endl;
         curr->add_element(elem,NULL,NULL);
         while (curr->check()) {
@@ -191,7 +205,7 @@ public:
         left->bt.resize(sz+1);
 
         left->leaf = this->leaf;
-        copy(bt.begin(), next(bt.begin(),sz), left->bt.begin());
+        copy(bt.begin(), next(bt.begin(),sz+1), left->bt.begin());
 
         cout << "inside split 3" << endl;
         // filling right
@@ -416,10 +430,10 @@ int main() {
     // create b1
     // add  elements to it
 
-    BTree *b1 = new BTree(2);
-    b1 = b1->insert_tree(0);
-    b1 = b1->insert_tree(1);
-    b1 = b1->insert_tree(2);
+	BTree *b1 = new BTree(2);
+	b1 = b1->insert_tree(0);
+	b1 = b1->insert_tree(1);
+	b1 = b1->insert_tree(2);
 
 //	cout << b1->bt[1]->parent << endl;
 //	cout << (b1->bt[1]->parent == b1) << endl;
@@ -433,26 +447,32 @@ int main() {
 
 //	b1 = bnew[1];
 
-    b1 = b1->insert_tree(3);
+	b1 = b1->insert_tree(3);
 
-    cout << "b1->bt[0]->parent = " << b1->bt[0]->parent << endl;
-    b1 = b1->insert_tree(4);
-    b1 = b1->insert_tree(5);
+	cout << "b1->bt[0]->parent = " << b1->bt[0]->parent << endl;
+	b1 = b1->insert_tree(4);
+	b1 = b1->insert_tree(5);
 
-
-    b1 = b1->insert_tree(6);
+	b1 = b1->insert_tree(6);
 	b1 = b1->insert_tree(7);
+
 	
-b1 = b1->insert_tree(8);
-b1 = b1->insert_tree(9);
-b1 = b1->insert_tree(10);
-b1 = b1->insert_tree(11);
+	
+	
+	
 
-    system("reset");
+
+	//b1 = b1->insert_tree(8);
+
+	b1 = b1->insert_tree(9);
+	b1 = b1->insert_tree(10);
+	b1 = b1->insert_tree(11);
+
+
+	system("reset");
 	b1->print(0);
-
-
-
+	
+	
 //	cout << b1->bt[1]->parent << endl;;
 
 
