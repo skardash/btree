@@ -70,11 +70,17 @@ public:
 		curr = prev;
 	}
         cout << "reached the leaf" << endl;
+
         curr->add_element(elem,NULL,NULL);
         while (curr->check()) {
             cout << "node is full: going to split" << endl;
             vector<BTree*> spl = curr->split();
             cout << "split done successfully" << endl;
+		cout << "curr->vals[0] = " << curr->vals[0] << endl;
+		cout << "curr->vals[1] = " << curr->vals[1] << endl;
+		cout << "curr->vals[2] = " << curr->vals[2] << endl;
+		cout << "curr->vals[3] = " << curr->vals[3] << endl;
+		cout << "curr->vals.size() = " << curr->vals.size() << endl;
             if (curr->parent == NULL) {
                 cout << "parent == NULL, create new root" << endl;
                 BTree *par = spl[1];
@@ -206,7 +212,11 @@ public:
 
         left->leaf = this->leaf;
         copy(bt.begin(), next(bt.begin(),sz+1), left->bt.begin());
-
+	for (int i=0; i<left->bt.size(); i++) {
+		if (left->bt[i] != NULL)
+			left->bt[i]->parent = left;
+	}	
+	
         cout << "inside split 3" << endl;
         // filling right
         right->vals.resize(sz);
@@ -224,6 +234,10 @@ public:
         cout << "bt.size() = " << bt.size() << endl;
         // this is smth stange
         copy(next(bt.begin(),sz+1), bt.end(), (right->bt).begin());
+	for (int i=0; i<right->bt.size(); i++) {
+		if (right->bt[i] != NULL)
+			right->bt[i]->parent = right;
+	}
         cout << "right->bt[0] = " << right->bt[0] << endl;
         cout << "right->bt[1] = " << right->bt[1] << endl;
 
@@ -458,16 +472,17 @@ int main() {
 
 	
 	
+//	b1->bt[1]->bt[1]->parent->print(0);
+	b1 = b1->insert_tree(8);
 	
+
 	
-
-
-	//b1 = b1->insert_tree(8);
-
 	b1 = b1->insert_tree(9);
 	b1 = b1->insert_tree(10);
 	b1 = b1->insert_tree(11);
-
+	b1 = b1->insert_tree(12);
+	b1 = b1->insert_tree(13);
+	b1 = b1->insert_tree(14);
 
 	system("reset");
 	b1->print(0);
