@@ -470,13 +470,8 @@ int main() {
 	b1 = b1->insert_tree(6);
 	b1 = b1->insert_tree(7);
 
-	
-	
 //	b1->bt[1]->bt[1]->parent->print(0);
 	b1 = b1->insert_tree(8);
-	
-
-	
 	b1 = b1->insert_tree(9);
 	b1 = b1->insert_tree(10);
 	b1 = b1->insert_tree(11);
